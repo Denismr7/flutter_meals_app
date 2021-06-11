@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../widgets/meal_tag_info.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
@@ -15,6 +17,46 @@ class MealItem extends StatelessWidget {
     required this.complexity,
     required this.affordability,
   });
+
+  String get complexityText {
+    String text;
+    switch (complexity) {
+      case Complexity.Simple:
+        text = 'Simple';
+        break;
+      case Complexity.Challenging:
+        text = 'Challenging';
+        break;
+      case Complexity.Hard:
+        text = 'Hard';
+        break;
+      default:
+        text = 'Unknown';
+        break;
+    }
+
+    return text;
+  }
+
+  String get affordabilityText {
+    String text;
+    switch (affordability) {
+      case Affordability.Affordable:
+        text = 'Affordable';
+        break;
+      case Affordability.Pricey:
+        text = 'Pricey';
+        break;
+      case Affordability.Luxurious:
+        text = 'Luxurious';
+        break;
+      default:
+        text = 'Unknown';
+        break;
+    }
+
+    return text;
+  }
 
   void selectMeal() {}
 
@@ -41,7 +83,36 @@ class MealItem extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
-                )
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    width: 300,
+                    color: Colors.black54,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      MealTagInfo(Icons.schedule, '$duration min'),
+                      MealTagInfo(Icons.work, complexityText),
+                      MealTagInfo(Icons.attach_money, affordabilityText),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],
