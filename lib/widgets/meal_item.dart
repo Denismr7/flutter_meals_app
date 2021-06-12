@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/meal_tag_info.dart';
 import '../models/meal.dart';
+import '../screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imgUrl;
   final int duration;
@@ -11,6 +13,7 @@ class MealItem extends StatelessWidget {
   final Affordability affordability;
 
   const MealItem({
+    required this.id,
     required this.title,
     required this.imgUrl,
     required this.duration,
@@ -58,12 +61,15 @@ class MealItem extends StatelessWidget {
     return text;
   }
 
-  void selectMeal() {}
+  void selectMeal(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(MealDetailScreen.routeName, arguments: this.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: selectMeal,
+      onTap: () => selectMeal(context),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
@@ -102,19 +108,19 @@ class MealItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      MealTagInfo(Icons.schedule, '$duration min'),
-                      MealTagInfo(Icons.work, complexityText),
-                      MealTagInfo(Icons.attach_money, affordabilityText),
-                    ],
-                  ),
-                ),
               ],
             ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  MealTagInfo(Icons.schedule, '$duration min'),
+                  MealTagInfo(Icons.work, complexityText),
+                  MealTagInfo(Icons.attach_money, affordabilityText),
+                ],
+              ),
+            )
           ],
         ),
       ),
